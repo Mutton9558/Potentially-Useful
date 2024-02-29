@@ -1,0 +1,45 @@
+<!-- Selection sort version -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sort Names</title>
+</head>
+<body>
+
+    <h1>Sort Names</h1>
+
+    <script>
+        function bubbleSortNames(names) {
+            let n = names.length;
+
+            for (let i = 0; i < n - 1; i++) {
+                let min = i;
+                for (let j = i+1; j < n; j++) {
+                    if (names[j][0].toLowerCase() < names[min][0].toLowerCase()) {
+                        min = j;
+                    }
+                }
+                if(min != i){
+                    let temp = names[i];
+                        names[i] = names[min];
+                        names[min] = temp;
+                }
+            }
+            for (let p = 0; p < n; p++) {
+                names[p] = names[p].charAt(0).toUpperCase() + names[p].slice(1);
+            }
+
+            return names;
+        }
+
+        // Example usage:
+        let unsortedNames = ["John", "Alice", "Bob", "Charlie", "David", "spakle", "donald Trump", "joe Biden"];
+        let sortedNames = bubbleSortNames(unsortedNames);
+
+        document.write("<p>Sorted Names: " + sortedNames.join(", ") + "</p>");
+    </script>
+
+</body>
+</html>
