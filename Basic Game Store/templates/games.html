@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Games</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div id="nav-left">
+            <a class="navbar-brand" href="#">Shawn's Game Store</a>
+            <ul class="navbar-nav-mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+            </ul>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item-active">
+                    <a class="nav-link" href="/gamesShow">Games</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+      </nav>
+    <section id = "game-sec">
+        {% if game_list %}
+            {% for game in game_list %}
+                <div id="game-cont">
+                    <div id="img">
+                        <img src="{{ url_for('game_image', id=game.id) }}" alt="{{ game.gameName }}" id="game-img">
+                    </div>
+                    <div id="game-content">
+                        <h3>{{game.gameName}}</h3>
+                        <p>{{game.gameDesc}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </section>
+    
+    <a href="/">return</a>
+</body>
+</html>

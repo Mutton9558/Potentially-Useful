@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+        <title>Register</title>
+    </head>
+    <body>
+        <div id="register-page">
+            <h1>Register new user</h1>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for msg in messages %}
+                        <p>{{ msg }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <div id="reg-form">
+                <form method="POST" name="register-form">
+                    <div id="col">
+                        <div id="left">
+                            <p>Full Name:</p>
+                        </div>
+                        <div id="right">
+                            <p><input type="text" name="name" required></p>
+                        </div>
+                    </div>
+                    <div id="col">
+                        <div id="left">
+                            <p>Email:</p>
+                        </div>
+                        <div id="right">
+                            <p><input type="text" name="email" required></p>
+                        </div>
+                    </div>
+                    <div id="col">
+                        <div id="left">
+                            <p>Username:</p>
+                        </div>
+                        <div id="right">
+                            <p><input type="text" name="username" required></p>
+                        </div>
+                    </div>
+                    <div id="col">
+                        <div id="left">
+                            <p>Password:</p>
+                        </div>
+                        <div id="right">
+                            <p><input type="password" name="password" required></p>
+                        </div>
+                    </div>
+                    <p><input type=submit value="submit"></p>
+                </form>
+                <a href="/login">Already have an account? Click here!</a>
+            </div>
+        </div>
+    </body>
+</html>

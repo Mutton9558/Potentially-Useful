@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <title>Login</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <p>{{ msg }}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form method="POST", name="login-form">
+        <p>Username: </p>
+        <div class="input-container">
+            <p><input type="text" id="user" name="login-username" required></p>
+        </div>
+        <p>Password: </p>
+        <div class="input-container">
+            <p><input type="password" id="pass" name="login-password" required><button type="button" id="pass-btn" onclick=toggleVisibility()>
+                <img id="pass-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAA5VJREFUSEuVlk9oHVUUxn+HxLprYl6lilLEELcJFdqVqNBqSQu2zaaiFBFLu1AKWgLd60qoioIGUxSkzaJ/lNI/NBvNwkUWLqwUSy1i243YSpFkUVLwOGfmzMydmTtvnneR3Dnv3nvO+c53vnuFYAig/l3OBUFRN6T/yj/h9mIenpMaG4bMVHUVOmgEEfVTM7Z4yTMKzhws6kGCiPjsh2h7Gv/joG4sqoUMoI4iHi/QINl3RNJ0PMihIbkGJlpIUpu3sLoRsPAIyqvAM0AP2ODg3QX+Bq4DJ4B/OiqUEb17kTwr6KzCXpDhtOHaifsA5DToB8DVavCxGse9jwGfAK9Hsr+Dcst7dBPKozUNUIXjwLvASqzcbTUeAX4ApnzTGvAVcCG1CyuFomQLRgSeV9gFvAE8lJnlR0G3qXC/UKZYH3vUDwNLwFZfcxY4BNypRx5XOh7zIHf4+svANPCvI5RKXyzjBZB9Lp4fArPlhnQ27oFMCqwoLAJzNZKKCnMoB9z+kcNeLKs7fgv40tgj6DmF3WBnaI6UOV1G6NWgsxIYzGHfDwHfA89lZJRp0Eu558xxhtkocBNYnxDqBrA5q2UFYEPgSAtZDmktc0hh/8VaL6n9HwLj6pCHGb+d9OenfujLZBDWx6LA9spNVa44izBTDTTNyHr/pC/bn5TqmzzXfOth4GP/2JMw+ruK1wyVM6T9HB1GwpkIAWdUOO0BvYPwWS4FvlZGQX9LftiAchuYBO5V2KAcTOD7osWxMT8lWaCiBvGVxP44yJ+CTiis1jO27zBrI4IRJmuDcpwHdtYcBOTK82AIdXJlJmP4fDZtttM6hGWUKe/RY4nyvBd6dbtl/pLPy3YqG9tm5uRN37sE8iKYoOWum7g9AfwEbPQl3wp6UFMB6Vb2pB1t/9cI27yuvwNb/CKpVC5SMnkK1DKZ8B/XEOZRLqaqJqzW2sx0/QXgFeA1wHrYIP0ZdHtT9SRyO3lSAj0Fg9paoMIY4K8ERrskhpOAnkTTPg2H8eJz4Gj/S6I/gqbZdoARajhS79Bkl8kpgfcVrhWlaTwWKuTqqJ8whqZX5NOuRL3gIXBX4FeFhSLDErn6xVQAWPAs0ORI3eum+sWe63lnAsVbIiB47fHbF9eBGB6KSdlH9ogp4ffHWBhGtDbFTdWKSndI8fu4cWDDf0nz9pL09R57ZXaHG9GRCJO6Sl1VuXiN4xlXkx04Xl/4H2PqHTfQ11RTAAAAAElFTkSuQmCC"/>
+            </button></input></p>
+        </div>
+        <p><input type="submit"></p>
+    </form>
+    <a href="/register">Don't have an account? Register now!</a>
+
+    <script>
+        let icon = document.querySelector('#pass-img');
+        let PASS_INPUT = document.querySelector('#pass');
+
+        function toggleVisibility(){
+            if (PASS_INPUT.type == "text"){
+                PASS_INPUT.type = "password";
+                icon.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAA5VJREFUSEuVlk9oHVUUxn+HxLprYl6lilLEELcJFdqVqNBqSQu2zaaiFBFLu1AKWgLd60qoioIGUxSkzaJ/lNI/NBvNwkUWLqwUSy1i243YSpFkUVLwOGfmzMydmTtvnneR3Dnv3nvO+c53vnuFYAig/l3OBUFRN6T/yj/h9mIenpMaG4bMVHUVOmgEEfVTM7Z4yTMKzhws6kGCiPjsh2h7Gv/joG4sqoUMoI4iHi/QINl3RNJ0PMihIbkGJlpIUpu3sLoRsPAIyqvAM0AP2ODg3QX+Bq4DJ4B/OiqUEb17kTwr6KzCXpDhtOHaifsA5DToB8DVavCxGse9jwGfAK9Hsr+Dcst7dBPKozUNUIXjwLvASqzcbTUeAX4ApnzTGvAVcCG1CyuFomQLRgSeV9gFvAE8lJnlR0G3qXC/UKZYH3vUDwNLwFZfcxY4BNypRx5XOh7zIHf4+svANPCvI5RKXyzjBZB9Lp4fArPlhnQ27oFMCqwoLAJzNZKKCnMoB9z+kcNeLKs7fgv40tgj6DmF3WBnaI6UOV1G6NWgsxIYzGHfDwHfA89lZJRp0Eu558xxhtkocBNYnxDqBrA5q2UFYEPgSAtZDmktc0hh/8VaL6n9HwLj6pCHGb+d9OenfujLZBDWx6LA9spNVa44izBTDTTNyHr/pC/bn5TqmzzXfOth4GP/2JMw+ruK1wyVM6T9HB1GwpkIAWdUOO0BvYPwWS4FvlZGQX9LftiAchuYBO5V2KAcTOD7osWxMT8lWaCiBvGVxP44yJ+CTiis1jO27zBrI4IRJmuDcpwHdtYcBOTK82AIdXJlJmP4fDZtttM6hGWUKe/RY4nyvBd6dbtl/pLPy3YqG9tm5uRN37sE8iKYoOWum7g9AfwEbPQl3wp6UFMB6Vb2pB1t/9cI27yuvwNb/CKpVC5SMnkK1DKZ8B/XEOZRLqaqJqzW2sx0/QXgFeA1wHrYIP0ZdHtT9SRyO3lSAj0Fg9paoMIY4K8ERrskhpOAnkTTPg2H8eJz4Gj/S6I/gqbZdoARajhS79Bkl8kpgfcVrhWlaTwWKuTqqJ8whqZX5NOuRL3gIXBX4FeFhSLDErn6xVQAWPAs0ORI3eum+sWe63lnAsVbIiB47fHbF9eBGB6KSdlH9ogp4ffHWBhGtDbFTdWKSndI8fu4cWDDf0nz9pL09R57ZXaHG9GRCJO6Sl1VuXiN4xlXkx04Xl/4H2PqHTfQ11RTAAAAAElFTkSuQmCC"
+            } else {
+                PASS_INPUT.type = "text";
+                icon.src = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAAAXNSR0IArs4c6QAAA/dJREFUSEuVl0uoVlUUx39LKxTKIs0iIsKoQRQNHEg0UCgwsps9QHtjVwxBQggnQjgRhz0GIkbeGpQGWXELswe9oaIIB4oQmSAVDXrebkWZXVdnnb3OOevsb58Lncn9zjp7r+f/v9a6QvERQMH/1Efq31EQRUPno/K+MnvrGxhxpKDUz4z4VY6i1R997xn2DwtQma4jdq8EbYPtjPWj72wWslJwKBnunkuBz4AtAnuzzA7pHsrRUPxtkpsDZwBHEa5ERUHvAl4cvi3UmZhV/VCNU/YjSsaBPSYRmFG4A3itfL1geCj7hZzkqbYjZnzCdcwAtwIHEc5GWStwnQpLUOYI/KXwE/Az8BWwF/itnAR3NGC1dG69R27fTgEvAGuAeUMscH2nQF4C3VGXrXkGqDhUpWg8PzMFHHehAfKCLMtW+gngEYHfO35ErgS3Im1cXBsPDlv9t1fl+Cbz5FxgOXALyLoq4jPTd/kY9Ebg79zzUOPW57nAUoHPnU51zV3RlKA3KBzqd4We2ouAZxFucvK/BdwMnI5lGm0gsBt4AFhVRfG+qwzGmULYhtaIN1C9BzwFGBAjRUy2we8/YWnP2RHfVyK86W36gMJYqMQ42kQeTKSfHwErUoNv2TkX5V2B5V5jC+RgxFvz21J8uGoaVwHfCVyjYCCKsyJFXkBpBbb7gef7SMbSfgRYVNX+BOjlTcojj2Mt7xV0XwmNDc/NnaxzPeclyv26G9jnDt3j1PTOlWqzCXSnJ/F2QSdH22ELwI5qXUPYr8Kadpp28gcVnnHDDwFPJ6e73Jwn6DGt08K3wLXAr1nqYnFznu9AeDRr3ucAXwOLQX4BvRg4WYeZjbnNwJNu7I3ES6dBTsT0Ho0bXe4EJh3cc1CZFHTMM7epcmBX43neq88CPjEeu53HbESWbbbScZAJ31hmUFYJvKNp2KzzU58C1zeozyJuFV1SRfoFcKFLXgE2Aj9mCI/+pMgT2k+C2n0zZKLjmqhmTAnrRbgePlwGvF1NmyucTP9QA0QOgH6I8Ee+knVod4VJ2QcCqxWm86yFGo8sbwuBxxuK9C4KP6B1v/4TsK70qn/vKJkMjwlYIxp5eoYHarmsQuJWb6G2peSPjc3VgIHRkrte0D1u7F/gNuD1vEylRaBTHIa2wvkVNe4DlngnWijofE2oP1b17YcBK4k9Ee3Ww9eCvBxX5lHD/2N96aBS3JDbNcopaTvc/iaqnuHI6a4dDnuSo7TQYmMb/hL06maKlebxLBt+f28aRUxkauQ5tgpZb/jecRBbZuE/lgG0NeNq1qpEfAgLUKbjUBtIdbTYR9iQL2X5LGXKenXL/sL+lcjSZrOgdMhOQf4fmThYMyvEgtMAAAAASUVORK5CYII="
+            }
+        }
+    </script>
+
+</body>
+</html>
