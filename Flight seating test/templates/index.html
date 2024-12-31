@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .center-cont{
+            display: flex;
+            flex-direction: column;
+            width: 100vw;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #seats{
+            width: 30rem;
+            display: flex;
+        }
+
+        #column-left, #column-right{
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+        }
+
+
+        .center-cont #row-left{
+            display: flex;
+            flex-direction: row;
+            float: left;
+        }
+
+        button.taken{
+            background-color: red !important;
+            cursor: not-allowed;
+        }
+
+        .disabled{
+            background-color: gray !important;
+            cursor: not-allowed;
+        }
+
+        #row-left button, #row-right button{
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            background-color: greenyellow;
+            margin: 0.4rem;
+        }
+
+        #row-right{
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+        }
+
+    </style>
+    <div class="center-cont">
+        <div id="seats">
+            <div id="column-left">
+                {% for i in range(0, 10) %}
+                    <div id="row-left">
+                        {% for j in range(0, 3) %}
+                            {% set seat_id = i ~ '-' ~ rowDict[j] %}
+                            {% if seat_id in taken_seats %}
+                                <button id="{{ seat_id }}" onclick="sendId('{{ seat_id }}')" class="taken"></button>
+                            {% else %}
+                                <button id="{{ seat_id }}" onclick="sendId('{{ seat_id }}')"></button>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+            <div id="column-right">
+                {% for i in range(0, 10) %}
+                    <div id="row-right">
+                        {% for j in range(3, 6) %}
+                            {% set seat_id = i ~ '-' ~ rowDict[j] %}
+                            {% if seat_id in taken_seats %}
+                                <button id="{{ seat_id }}" onclick="sendId('{{ seat_id }}')" class="taken"></button>
+                            {% else %}
+                                <button id="{{ seat_id }}" onclick="sendId('{{ seat_id }}')"></button>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>    
+    <script>
+        // Quadrants and seat disabling logic
+        const quadrantTaken = JSON.parse('{{ quadrant_taken_json | safe }}');
+    
+        document.addEventListener('DOMContentLoaded', () => {
+            const seats = document.querySelectorAll('button');
+    
+            seats.forEach(seat => {
+                const seatId = seat.id.trim(); // Ensure no extra spaces in the ID
+                const [row, col] = seatId.split('-');
+                const rowIndex = parseInt(row, 10); // Convert row to a number
+                const colIndex = col.charCodeAt(0) - 'A'.charCodeAt(0); // Map 'A'-'F' to index
+    
+                let quadrantX = null;
+                let quadrantY = null;
+                console.log(quadrantTaken['right'])
+                console.log(quadrantTaken['left'])
+    
+                // Assign seats to quadrants
+                if (colIndex < 3){
+                    quadrantX = 'left';
+                } 
+                if (colIndex >= 3){
+                    quadrantX = 'right';
+                } 
+                if (rowIndex >= 5) {
+                    quadrantY = 'bottom';
+                }
+                if (rowIndex < 5 && colIndex < 6) {
+                    quadrantY = 'top';
+                }
+
+                differenceHorizontal = Math.abs(quadrantTaken['left'] - quadrantTaken['right'])
+                differenceVertical = Math.abs(quadrantTaken['top'] - quadrantTaken['bottom'])
+                console.log(differenceHorizontal)
+                // Disable seats if a quadrant has 4 or more taken seats
+                // if (quadrant && quadrantTaken[quadrant] >= 4) {
+                //     seat.disabled = true;
+                //     seat.classList.add('disabled'); // Optional: Add a class for styling
+                // }
+                switch(quadrantX){
+                    case 'left':
+                        if(differenceHorizontal >= 4 && quadrantTaken['left'] > quadrantTaken['right']){
+                            console.log("left")
+                            seat.disabled = true;
+                            seat.classList.add('disabled');
+                        }
+                        break;
+                    default:
+                        if(differenceHorizontal >= 4 && quadrantTaken['right'] > quadrantTaken['left']){
+                            seat.disabled = true;
+                            seat.classList.add('disabled');
+                        }
+                        break;
+                }
+                switch (quadrantY){
+                    case 'top':
+                        if(differenceVertical >= 4 && quadrantTaken['top'] > quadrantTaken['bottom']){
+                            seat.disabled = true;
+                            seat.classList.add('disabled');
+                        }
+                        break;
+                    default:
+                        if(differenceVertical >= 4 && quadrantTaken['bottom'] > quadrantTaken['top']){
+                            seat.disabled = true;
+                            seat.classList.add('disabled');
+                        }
+                        break;
+                }
+            });
+    
+            // Disable individual seats marked as taken
+            const SEATTAKEN = document.querySelectorAll(".taken");
+            SEATTAKEN.forEach(seat => {
+                seat.disabled = true;
+            });
+        });
+    
+        // Function to handle seat clicks and reload
+        function sendId(buttonId) {
+            fetch('/process_id', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ id: buttonId }),
+            })
+            .then(response => {
+                if (response.ok) {
+                    // Reload the page upon successful seat selection
+                    window.location.reload();
+                } else {
+                    console.error('Failed to process ID:', response.status);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>    
+</body>
+</html>
