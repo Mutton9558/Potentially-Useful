@@ -29,7 +29,7 @@ app.get("/redirecttorickroll", async (req, res) => {
 // Our main site
 app.get("/", (req, res) => {
   // redirects to the middle man url
-    const rickastley = `http://localhost:${PORT}/redirecttorickroll`
+    const rickastley = `http://sitename:${PORT}/redirecttorickroll`
     res.status(200);
     res.send(`
         <html>
